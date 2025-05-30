@@ -1,0 +1,41 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:ToDoAdvanced.ViewModels.AddWindow"
+        x:DataType="vm:AddViewViewModel"
+        x:Class="ToDoAdvanced.Views.AddWindow.AddView"
+        xmlns:conv="using:ToDoAdvanced.Converters">
+    
+    <UserControl.Resources>
+        <conv:SplitWordsConverter x:Key="SplitWordsConverter"/>
+    </UserControl.Resources>
+    
+    <!-- setting a field for tasks -->
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" Classes="AddItemContainer">
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="This is your new task" HorizontalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="UltraLight"/>
+        <TextBox Grid.Column="0" Grid.Row="1" Watermark="This is the title of your task" HorizontalAlignment="Stretch"          Text="{Binding Name, Mode=TwoWay}" />
+        <TextBox Grid.Column="0" Grid.Row="2" Name="Box" Watermark="Please enter the description" HorizontalAlignment="Stretch"          Text="{Binding Description, Mode=TwoWay}" />
+        
+        <!-- setting properties for combobox -->
+        <ComboBox Classes="AddItemGrid" Grid.Column="0" Grid.Row="3" ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus}" Width="{Binding #Box.Bounds.Width}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Width="{Binding #Box.Bounds.Width}"  Text="{Binding Converter={StaticResource SplitWordsConverter}}" TextAlignment="Center"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <ComboBox Classes="AddItemGrid" Grid.Column="0" Grid.Row="4" ItemsSource="{Binding Priorities}" SelectedItem="{Binding SelectedPriority}" Width="{Binding #Box.Bounds.Width}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Width="{Binding #Box.Bounds.Width}"  Text="{Binding Converter={StaticResource SplitWordsConverter}}" TextAlignment="Center"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <!-- making a button for adding a task -->
+        <Button Classes="AddItemButton" Grid.Column="0" Grid.Row="5" Content="Add a task" Command="{Binding AddItemCommand}"/>
+    </Grid>
+</UserControl>

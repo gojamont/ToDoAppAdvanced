@@ -9,11 +9,11 @@ public enum ToDoStatus {NotStarted, InProgress, Completed}
 
 public partial class ToDoItem : ObservableObject
 { 
-    // creating properties for the ToDoItem
-    [ObservableProperty] private string? _name = "New TO DO task";
-    [ObservableProperty] private string? _description = "New Description";
-    [ObservableProperty] private PriorityLevel _priority = PriorityLevel.Low;
-    [ObservableProperty] private ToDoStatus _status = ToDoStatus.NotStarted;
+    // // creating properties for the ToDoItem
+    [ObservableProperty] private string _name = String.Empty;
+    [ObservableProperty] private string _description = String.Empty;
+    [ObservableProperty] private PriorityLevel _priority;
+    [ObservableProperty] private ToDoStatus _status;
     [ObservableProperty] private DateOnly? _date;
     [ObservableProperty] private TimeOnly? _time;
     
@@ -32,5 +32,5 @@ public partial class ToDoItem : ObservableObject
     }
     
     public override string ToString() =>
-        $"{Name} ({Priority}) - {Status} {(Date.HasValue ? $"on {Date}" : "")}";
+        $"{Name} - {Description} - ({Priority}) - {Status} {(Date.HasValue ? $"on {Date}" : "")}";
 }

@@ -9,12 +9,13 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="ToDoAdvanced">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Add a new item" Command="{Binding SwitchToAddView}"/>
+            </MenuItem>
+        </Menu>
+        
+        <ContentControl Content="{Binding CurrentView}"/>
+    </DockPanel>
 </Window>
