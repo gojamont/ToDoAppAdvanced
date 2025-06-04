@@ -34,7 +34,7 @@ public partial class ToDoItemViewModel : ViewModelBase
     
     // a function for deleting an item
     [RelayCommand]
-    public Task Delete() => ExecuteAndNotifyAsync(() => _toDoManager.Delete(Item));
+    private Task Delete() => ExecuteAndNotifyAsync(() => _toDoManager.Delete(Item));
     
     // a function for notifying of changes
     private async Task ExecuteAndNotifyAsync(Func<Task> action)
