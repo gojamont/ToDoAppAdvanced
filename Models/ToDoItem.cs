@@ -33,4 +33,15 @@ public partial class ToDoItem : ObservableObject
     
     public override string ToString() =>
         $"{Name} - {Description} - ({Priority}) - {Status} {(Date.HasValue ? $"on {Date}" : "")}";
+    
+       public override bool Equals(object obj)
+        {
+            if (obj is not ToDoItem other) return false;
+            return Name == other.Name && Description == other.Description;
+        }
+    
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Description);
+        }
 }

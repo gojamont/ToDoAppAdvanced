@@ -14,6 +14,8 @@ public class ToDoManager : IToDoManager
     private readonly IDataService _dataService;
     public List<ToDoItem> items { get; set; } = [];
     
+    public string filePath { get; set; }= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ToDoList.json");
+    
     // constructors for to do manager
     public ToDoManager(){}
     
@@ -25,25 +27,27 @@ public class ToDoManager : IToDoManager
      // a function for adding a to do item
      public async Task Add(ToDoItem item)
      {
-         // setting the filepath for the to do tasks json file
-         var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ToDoList.json");
-         
          // reading the file data to add new entries
-         items = await _dataService.FileDataReader.ReadDataAsync(filePath);
+         if (items.Count == 0) 
+             items = await _dataService.FileDataReader.ReadDataAsync(filePath);
          
         // adding new entries to the read list
          items.Add(new ToDoItem(item.Name, item.Description, item.Priority, item.Status));
          
-         // writing everything into the updated json file
-         var updatedJson = JsonSerializer.Serialize(items, new JsonSerializerOptions { WriteIndented = true });
-         
-         await File.WriteAllTextAsync(filePath, updatedJson);
+         // saving data
+         await _dataService.FileDataSaver.SaveDataAsync(filePath, items);
      }
      
     // a function for deleting a to do item
-    public void Delete(ToDoItem item)
+    public async Task Delete(ToDoItem item)
     {
-        Console.WriteLine("Delete");
+        items = await _dataService.FileDataReader.ReadDataAsync(filePath);
+        
+        items.Remove(item);
+        
+        Console.WriteLine($"Item to be removed {item}");
+        
+        await _dataService.FileDataSaver.SaveDataAsync(filePath, items);
     }
 
     // function for getting all the entries

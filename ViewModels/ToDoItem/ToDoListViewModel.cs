@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ToDoAdvanced.Models;
 using ToDoAdvanced.Services;
@@ -15,6 +16,13 @@ public class ToDoListViewModel : ViewModelBase
     private readonly IDataReader _dataReader;
     public ObservableCollection<ToDoItemViewModel> ToDoItems { get; } = new();
     public int ToDoItemsCount => ToDoItems.Count;
+    
+    private ToDoItemViewModel CreateViewModel(ToDoItem item)
+    {
+        var vm = new ToDoItemViewModel(item, _toDoManager, _dataReader);
+        vm.ItemChanged += LoadToDoItemsAsync;
+        return vm;
+    }
     
     public ToDoListViewModel(IToDoManager toDoManager, IDataReader dataReader)
     {
@@ -34,10 +42,8 @@ public class ToDoListViewModel : ViewModelBase
             
             ToDoItems.Clear();
             
-            foreach (var item in items)
-            {
-                ToDoItems.Add(new ToDoItemViewModel(item, _toDoManager, _dataReader));
-            }
+            foreach (var vm in items.Select(CreateViewModel))
+                ToDoItems.Add(vm);
         }
         catch (Exception ex)
         {

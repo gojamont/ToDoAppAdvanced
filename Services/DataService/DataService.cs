@@ -82,7 +82,6 @@ public partial class FileDataSaver : IDataSaver
         var jsonOptions = new JsonSerializerOptions
         {
             WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
 
         var json = JsonSerializer.Serialize(items, jsonOptions);
