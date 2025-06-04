@@ -13,12 +13,15 @@ public class ToDoListViewModel : ViewModelBase
 {
     private readonly IToDoManager _toDoManager;
     private readonly IDataReader _dataReader;
-    public ObservableCollection<ToDoItemViewModel> ToDoItems { get; set; } = new();
-
+    public ObservableCollection<ToDoItemViewModel> ToDoItems { get; } = new();
+    public int ToDoItemsCount => ToDoItems.Count;
+    
     public ToDoListViewModel(IToDoManager toDoManager, IDataReader dataReader)
     {
         _toDoManager = toDoManager;
         _dataReader = dataReader;
+        ToDoItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(ToDoItemsCount));
+
     }
 
     public async Task LoadToDoItemsAsync()

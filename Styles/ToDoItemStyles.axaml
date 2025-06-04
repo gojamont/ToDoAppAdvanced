@@ -1,20 +1,16 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!--  Add Controls for Previewer Here  -->
-        </Border>
-    </Design.PreviewWith>
 
     <!--  Add Styles Here  -->
     <Style Selector="Grid">
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="MinWidth" Value="500"/>
     </Style>
     
 <!-- a grid for displaying all the tasks -->
     <Style Selector="Grid.ItemContainer">
-        <Setter Property="MaxWidth" Value="350" />
         <Setter Property="MinWidth" Value="200" />
+        <Setter Property="Margin" Value="10"></Setter>
     </Style>
     
     <!-- a field for add an item -->
@@ -29,7 +25,8 @@
     
     <!-- add the items on the main window -->
     <Style Selector="Grid.ItemContainer TextBlock">
-        <Setter Property="Margin" Value="5" />
+        <Setter Property="Margin" Value="0,0,5,0" />
+        <Setter Property="MinWidth" Value="300" />
     </Style>
     
     <!-- add item grid -->

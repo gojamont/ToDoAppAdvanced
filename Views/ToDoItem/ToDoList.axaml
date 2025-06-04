@@ -6,10 +6,27 @@
              x:DataType="vm:ToDoListViewModel"
              xmlns:vm="clr-namespace:ToDoAdvanced.ViewModels"
              xmlns:views="clr-namespace:ToDoAdvanced.Views"
-             x:Class="ToDoAdvanced.Views.ToDoList">
+             x:Class="ToDoAdvanced.Views.ToDoList"
+             xmlns:conv="using:ToDoAdvanced.Converters">
     
-    <Grid>
-        <ItemsControl ItemsSource="{Binding ToDoItems}">
+    <UserControl.Resources>
+        <conv:NotificationConverter x:Key="NotificationConverter"/>
+    </UserControl.Resources>
+    
+    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*">
+        <!-- Title Section -->
+        <TextBlock Grid.Row="0"
+                   Text="{Binding ToDoItemsCount,  Converter={StaticResource NotificationConverter}}"
+                   FontSize="32"
+                   FontWeight="UltraLight"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   Margin="0,20"
+                   />
+        
+        <!-- Items List -->
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding ToDoItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:ToDoItemViewModel">
                     <views:ToDoItem />

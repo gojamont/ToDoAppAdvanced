@@ -8,7 +8,7 @@ namespace ToDoAdvanced.ViewModels;
 
 public partial class ToDoItemViewModel : ViewModelBase
 {
-    private ToDoItem Item { get; }
+    private ToDoItem Item { get;}
     public string Name => Item.Name ?? "This is the name";
     public string Description => Item.Description ?? "This is the description";
     public ToDoStatus Status => Item.Status;
@@ -23,7 +23,7 @@ public partial class ToDoItemViewModel : ViewModelBase
         _toDoManager = toDoManager;
         _dataReader = dataReader;
     }
-
+    
     [RelayCommand]
     private Task Add()
     {

@@ -15,7 +15,6 @@
                 <MenuItem Header="_Add a new item" Command="{Binding SwitchToAddView}"/>
             </MenuItem>
         </Menu>
-        
         <ContentControl Content="{Binding CurrentView}"/>
     </DockPanel>
 </Window>
