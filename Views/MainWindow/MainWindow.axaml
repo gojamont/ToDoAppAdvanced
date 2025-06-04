@@ -12,9 +12,12 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Add a new item" Command="{Binding SwitchToAddView}"/>
+                <MenuItem Header="_Add" Command="{Binding SwitchToAddView}"/>
+                <MenuItem Header="_Edit" Command="{Binding SwitchToEditView}"/>
+                <MenuItem Header="_Clear the list" Command="{Binding ClearAllCommand}"/>
             </MenuItem>
+            <MenuItem Header="_Main" Command="{Binding SwitchToMainView}"/>
         </Menu>
-        <ContentControl Content="{Binding CurrentView}"/>
+        <ContentControl Content="{Binding CurrentView}" />
     </DockPanel>
 </Window>

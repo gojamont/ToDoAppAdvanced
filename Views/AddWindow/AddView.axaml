@@ -13,13 +13,15 @@
     </UserControl.Resources>
     
     <!-- setting a field for tasks -->
-    <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" Classes="AddItemContainer">
+    <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" Classes="AddItemContainer">
         <TextBlock Grid.Column="0" Grid.Row="0" Text="This is your new task" HorizontalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="UltraLight"/>
         <TextBox Grid.Column="0" Grid.Row="1" Watermark="This is the title of your task" HorizontalAlignment="Stretch"          Text="{Binding Name, Mode=TwoWay}" />
-        <TextBox Grid.Column="0" Grid.Row="2" Name="Box" Watermark="Please enter the description" HorizontalAlignment="Stretch"          Text="{Binding Description, Mode=TwoWay}" />
+        <TextBox Grid.Column="0" Grid.Row="2" Name="Box" Watermark="Please enter the description" HorizontalAlignment="Stretch" Text="{Binding Description, Mode=TwoWay}" />
+        <DatePicker Grid.Column="0" Grid.Row="3" SelectedDate="{Binding Date, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+        <TimePicker Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" SelectedTime="{Binding Time, Mode=TwoWay}" />
         
         <!-- setting properties for combobox -->
-        <ComboBox Classes="AddItemGrid" Grid.Column="0" Grid.Row="3" ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus}" Width="{Binding #Box.Bounds.Width}">
+        <ComboBox Classes="AddItemGrid" Grid.Column="0" Grid.Row="5" ItemsSource="{Binding Statuses}" SelectedItem="{Binding SelectedStatus}" Width="{Binding #Box.Bounds.Width}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Width="{Binding #Box.Bounds.Width}"  Text="{Binding Converter={StaticResource SplitWordsConverter}}" TextAlignment="Center"/>
@@ -27,7 +29,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         
-        <ComboBox Classes="AddItemGrid" Grid.Column="0" Grid.Row="4" ItemsSource="{Binding Priorities}" SelectedItem="{Binding SelectedPriority}" Width="{Binding #Box.Bounds.Width}">
+        <ComboBox Classes="AddItemGrid" Grid.Column="0" Grid.Row="6" ItemsSource="{Binding Priorities}" SelectedItem="{Binding SelectedPriority}" Width="{Binding #Box.Bounds.Width}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Width="{Binding #Box.Bounds.Width}"  Text="{Binding Converter={StaticResource SplitWordsConverter}}" TextAlignment="Center"/>
@@ -36,6 +38,6 @@
         </ComboBox>
         
         <!-- making a button for adding a task -->
-        <Button Classes="AddItemButton" Grid.Column="0" Grid.Row="5" Content="Add a task" Command="{Binding AddItemCommand}"/>
+        <Button Classes="AddItemButton" Grid.Column="0" Grid.Row="7" Content="Add a task" Command="{Binding AddItemCommand}"/>
     </Grid>
 </UserControl>

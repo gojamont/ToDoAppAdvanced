@@ -13,12 +13,14 @@ public partial class AddViewViewModel : ViewModelBase
 {
     public IEnumerable<ToDoStatus> Statuses => Enum.GetValues<ToDoStatus>();
     public IEnumerable<PriorityLevel> Priorities => Enum.GetValues<PriorityLevel>();
-
     
+        
     [ObservableProperty] private ToDoStatus _selectedStatus;
     [ObservableProperty] private string _name;
     [ObservableProperty] private string _description;
     [ObservableProperty] private PriorityLevel _selectedPriority;
+    [ObservableProperty] private DateTimeOffset _date = new DateTimeOffset(DateTime.Today);    
+    [ObservableProperty] private TimeSpan _time = DateTime.Now.TimeOfDay; 
 
     private readonly IToDoManager _toDoManager;
     
@@ -30,7 +32,7 @@ public partial class AddViewViewModel : ViewModelBase
     [RelayCommand]
     private void AddItem()
     {
-        var newItem = new ToDoItem(Name, Description, SelectedPriority, SelectedStatus);
+        var newItem = new ToDoItem(Name, Description, SelectedPriority, SelectedStatus, Date,  Time);
         _toDoManager.Add(newItem);
     }
 }

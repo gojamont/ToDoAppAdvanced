@@ -11,9 +11,12 @@
     
     <UserControl.Resources>
         <conv:NotificationConverter x:Key="NotificationConverter"/>
+        <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+
     </UserControl.Resources>
     
-    <Grid RowDefinitions="Auto, *" ColumnDefinitions="*">
+    <Grid RowDefinitions="Auto, *, *" ColumnDefinitions="*" HorizontalAlignment="Stretch">
+        
         <!-- Title Section -->
         <TextBlock Grid.Row="0"
                    Text="{Binding ToDoItemsCount,  Converter={StaticResource NotificationConverter}}"
@@ -25,7 +28,7 @@
                    />
         
         <!-- Items List -->
-        <ItemsControl Grid.Row="1"
+        <ItemsControl Grid.Row="2"
                       ItemsSource="{Binding ToDoItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:ToDoItemViewModel">
@@ -33,5 +36,18 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        
+        <!-- notification section -->
+        <Border Width="300" Height="30" Grid.Row="1" Margin="20" BorderBrush="DarkRed" BorderThickness="1" CornerRadius="20">
+            <Border.IsVisible>
+                <MultiBinding Converter="{StaticResource StringToVisibilityConverter}">
+                    <Binding Path="NotificationMessage"/>
+                    <Binding Path="ToDoItemsCount"/>
+                    <Binding Path="DeadlineReached"/>
+                </MultiBinding>
+            </Border.IsVisible>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="Notification" Foreground="DarkRed" Text="{Binding NotificationMessage}" FontSize="16" FontWeight="Light" TextAlignment="Center"></TextBlock>
+        </Border>
+
     </Grid>
 </UserControl>

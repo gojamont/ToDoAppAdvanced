@@ -13,6 +13,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = viewModel;
+        
         // Optionally, await initialization if needed
         _ = viewModel.InitializeAsync();
     }

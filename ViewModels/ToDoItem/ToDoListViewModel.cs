@@ -7,19 +7,27 @@ using System.Threading.Tasks;
 using ToDoAdvanced.Models;
 using ToDoAdvanced.Services;
 using ToDoAdvanced.Services.DataService;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using ToDoAdvanced.Threads;
+
 
 namespace ToDoAdvanced.ViewModels;
 
-public class ToDoListViewModel : ViewModelBase
+public partial class ToDoListViewModel : ViewModelBase
 {
     private readonly IToDoManager _toDoManager;
     private readonly IDataReader _dataReader;
+
+    [ObservableProperty] private string? _notificationMessage;
     public ObservableCollection<ToDoItemViewModel> ToDoItems { get; } = new();
     public int ToDoItemsCount => ToDoItems.Count;
+
+    [ObservableProperty] private bool _deadlineReached = false;
     
     private ToDoItemViewModel CreateViewModel(ToDoItem item)
     {
-        var vm = new ToDoItemViewModel(item, _toDoManager, _dataReader);
+        var vm = new ToDoItemViewModel(item, _toDoManager, _dataReader, this);
         vm.ItemChanged += LoadToDoItemsAsync;
         return vm;
     }
@@ -28,6 +36,7 @@ public class ToDoListViewModel : ViewModelBase
     {
         _toDoManager = toDoManager;
         _dataReader = dataReader;
+        
         ToDoItems.CollectionChanged += (s, e) => OnPropertyChanged(nameof(ToDoItemsCount));
 
     }
@@ -40,10 +49,16 @@ public class ToDoListViewModel : ViewModelBase
         {
             var items = await _dataReader.ReadDataAsync(filePath);
             
-            ToDoItems.Clear();
-            
-            foreach (var vm in items.Select(CreateViewModel))
-                ToDoItems.Add(vm);
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                ToDoItems.Clear();
+                foreach (var vm in items.Select(CreateViewModel))
+                {
+                    ToDoItems.Add(vm);
+                    var reminderThread = new ReminderThread(vm, this);
+                    reminderThread.Run();
+                }
+            });
         }
         catch (Exception ex)
         {

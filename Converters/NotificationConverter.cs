@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using Avalonia.Data.Converters;
-using ToDoAdvanced.ViewModels;
 
 namespace ToDoAdvanced.Converters;
 

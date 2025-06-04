@@ -11,25 +11,38 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="using:ToDoAdvanced.Converters">
     
+    
     <UserControl.Resources>
         <conv:SplitWordsConverter x:Key="SplitWordsConverter"/>
         <conv:StatusToColorConverter x:Key="StatusToColorConverter"/>
     </UserControl.Resources>
 
-    <Grid Classes="ItemContainer" ColumnDefinitions="Auto, Auto, Auto" RowDefinitions="Auto, Auto">
+    <Grid Classes="ItemContainer" ColumnDefinitions="Auto, Auto, Auto, Auto" RowDefinitions="Auto, Auto">
         <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Center" Width="200" />
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Status, Converter={StaticResource SplitWordsConverter }}" Foreground="{Binding Status, Converter={StaticResource StatusToColorConverter}}" Margin="10,0" VerticalAlignment="Center"  />
+        
+        <TextBlock Grid.Column="1" Grid.Row="0" 
+                   Text="{Binding Status, Converter={StaticResource SplitWordsConverter }}" 
+                   Foreground="{Binding Status, Converter={StaticResource StatusToColorConverter}}" 
+                   VerticalAlignment="Center" />
+        
+        <TextBlock Grid.Column="2" Grid.Row="0" 
+                   Text="{Binding Item.Priority}" 
+                   Margin="10" 
+                   VerticalAlignment="Center" />
 
-        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Width="200">
-            <Button Command="{Binding AddCommand}">
+        <StackPanel Grid.Column="3" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Width="200">
+            <Button Command="{Binding IsDoneCommand}">
                 <Image Width="16" Height="16" Source="avares://ToDoAdvanced/Assets/tick.png" />
             </Button>
             <Button Command="{Binding DeleteCommand}">
                 <Image Width="16" Height="16" Source="avares://ToDoAdvanced/Assets/minus.png" />
             </Button>
-            <Button>
-                <Image Width="16" Height="16" Source="avares://ToDoAdvanced/Assets/pen.png" />
+            <Button Command="{Binding InProgressCommand}">
+                <Image Width="16" Height="16" Source="avares://ToDoAdvanced/Assets/hourglass.png" />
             </Button>
+            
+            <Image Width="16" Height="16" IsVisible="{Binding DeadlineReached}" Source="avares://ToDoAdvanced/Assets/clock.png" />
+
         </StackPanel>
         <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Description}" />
         </Grid>

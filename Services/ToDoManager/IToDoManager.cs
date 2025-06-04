@@ -6,5 +6,8 @@ public interface IToDoManager
 {
     public Task Add(ToDoItem item);
     public Task Delete(ToDoItem item);
-    public void GetAll();
+    public Task IsDone(ToDoItem item);
+    public Task InProgress(ToDoItem item);
+    public Task Save(ToDoItem item);
+    public Task ClearAll();
 }

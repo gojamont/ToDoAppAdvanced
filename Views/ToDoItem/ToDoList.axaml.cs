@@ -7,8 +7,6 @@ namespace ToDoAdvanced.Views;
 
 public partial class ToDoList : UserControl
 {
-    private ToDoListViewModel? _viewModel; // Store the ViewModel instance
-
     public ToDoList()
     {
         InitializeComponent();
@@ -19,7 +17,6 @@ public partial class ToDoList : UserControl
     public ToDoList(ToDoListViewModel viewModel): this()
     {
         DataContext = viewModel;
-        _viewModel = viewModel; 
     }
 
     private async void OnViewLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

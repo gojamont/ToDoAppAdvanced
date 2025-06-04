@@ -39,6 +39,7 @@ public partial class App : Application
             // Do NOT resolve ToDoItemViewModel here
             // var toDoItemViewModel = this.Services.GetRequiredService<ToDoItemViewModel>();
             var toDoListViewModel = this.Services.GetRequiredService<ToDoListViewModel>();
+            
             var todoManager = this.Services.GetRequiredService<IToDoManager>();
             var dataManager = this.Services.GetRequiredService<IDataService>();
             
