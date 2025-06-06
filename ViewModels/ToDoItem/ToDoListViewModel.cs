@@ -27,7 +27,7 @@ public partial class ToDoListViewModel : ViewModelBase
     
     private ToDoItemViewModel CreateViewModel(ToDoItem item)
     {
-        var vm = new ToDoItemViewModel(item, _toDoManager, _dataReader, this);
+        var vm = new ToDoItemViewModel(item, _toDoManager, this);
         vm.ItemChanged += LoadToDoItemsAsync;
         return vm;
     }

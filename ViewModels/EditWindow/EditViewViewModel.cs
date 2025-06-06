@@ -21,12 +21,5 @@ public partial class EditViewViewModel : ViewModelBase
         _toDoManager = toDoManager;
     }
     
-    [RelayCommand]
-    public async Task Save()
-    {
-        if (SelectedItem == null) return;
-        
-        await _toDoManager.Save(SelectedItem.ToToDoItem());
-    }
 }
 

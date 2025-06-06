@@ -31,7 +31,6 @@
             </DataGrid.Columns>
             
         </DataGrid>
-        <Button Grid.Row="2" Content="Save" Command="{Binding SaveCommand}"></Button>
         </Grid>
     
 </UserControl>

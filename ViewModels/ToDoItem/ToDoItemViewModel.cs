@@ -12,12 +12,12 @@ namespace ToDoAdvanced.ViewModels;
 public partial class ToDoItemViewModel : ViewModelBase
 {
     private ToDoListViewModel _listViewModel;
-   public ToDoItem Item { get;}
+    
+    public ToDoItem Item { get;}
    
    [ObservableProperty] private string _name;
    
    [ObservableProperty] private string _description;
-   // [ObservableProperty] public string Description => Item.Description ?? "This is the description";
    
    [ObservableProperty] private ToDoStatus _status;
    
@@ -25,21 +25,16 @@ public partial class ToDoItemViewModel : ViewModelBase
 
     private readonly IToDoManager _toDoManager;
     
-    private readonly IDataReader _dataReader;
-    
-    private readonly IDataService _dataService;
-    
     public ObservableCollection<ToDoStatus> Statuses = new ObservableCollection<ToDoStatus>();
 
     
     // Event to notify parent to reload items
     public event Func<Task>? ItemChanged;
 
-    public ToDoItemViewModel(ToDoItem item, IToDoManager toDoManager, IDataReader dataReader, ToDoListViewModel listViewModel)
+    public ToDoItemViewModel(ToDoItem item, IToDoManager toDoManager, ToDoListViewModel listViewModel)
     {
         Item = item;
         _toDoManager = toDoManager;
-        _dataReader = dataReader;
         
         Name = Item.Name ?? "This is the name";
         Description = Item.Description ?? "This is the description";
@@ -72,17 +67,4 @@ public partial class ToDoItemViewModel : ViewModelBase
         if (ItemChanged != null)
             await ItemChanged.Invoke();
     }
-    
-    public ToDoItem ToToDoItem()
-    {
-        return new ToDoItem
-        {
-            Id = Item.Id,
-            Name = Item.Name,
-            Description = Item.Description,
-            Status = Item.Status,
-            Priority = Item.Priority
-        };
-    }
-    
 }

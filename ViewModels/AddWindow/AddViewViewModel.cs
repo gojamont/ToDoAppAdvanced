@@ -16,8 +16,8 @@ public partial class AddViewViewModel : ViewModelBase
     
         
     [ObservableProperty] private ToDoStatus _selectedStatus;
-    [ObservableProperty] private string _name;
-    [ObservableProperty] private string _description;
+    [ObservableProperty] private string? _name;
+    [ObservableProperty] private string? _description;
     [ObservableProperty] private PriorityLevel _selectedPriority;
     [ObservableProperty] private DateTimeOffset _date = new DateTimeOffset(DateTime.Today);    
     [ObservableProperty] private TimeSpan _time = DateTime.Now.TimeOfDay; 
@@ -32,7 +32,7 @@ public partial class AddViewViewModel : ViewModelBase
     [RelayCommand]
     private void AddItem()
     {
-        var newItem = new ToDoItem(Name, Description, SelectedPriority, SelectedStatus, Date,  Time);
+        var newItem = new ToDoItem(Name ?? string.Empty, Description ?? string.Empty, SelectedPriority, SelectedStatus, Date,  Time);
         _toDoManager.Add(newItem);
     }
 }

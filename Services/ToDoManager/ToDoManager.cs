@@ -13,6 +13,7 @@ public class ToDoManager : IToDoManager
 {
     // setting a data service for handling json files
     private readonly IDataService _dataService;
+    
     public List<ToDoItem> items { get; set; } = [];
     
     public string filePath { get; set; }= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ToDoList.json");
@@ -22,14 +23,14 @@ public class ToDoManager : IToDoManager
     
     public ToDoManager(IDataService dataService)
     {
-        _dataService = dataService;
+        _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
     }
     
     // function for adding a to do task into the list
     public async Task Add(ToDoItem item)
     {
-        await ModifyItemsAsync(list => list.Add(new ToDoItem(item.Name, item.Description, item.Priority, item.Status, item.Date ?? DateTime.MinValue, 
-            item.Time ?? TimeSpan.MinValue)));
+        await ModifyItemsAsync(list => list.Add(new ToDoItem(item.Name ?? string.Empty, item.Description ?? string.Empty, item.Priority, item.Status, item.Date, 
+            item.Time)));
     }
     
     // function for removing an item from the list
@@ -43,32 +44,6 @@ public class ToDoManager : IToDoManager
         });
     }
     
-    // function for saving the data
-    public async Task Save(ToDoItem item)
-    {
-        await ModifyItemsAsync(list =>
-        {
-            var updatedItem = list.FirstOrDefault(i => i.Id == item.Id);
-
-            if (updatedItem == null)
-            {
-                Console.WriteLine("Item not found for update.");
-                return;
-            }
-
-            Console.WriteLine("Before update: " + updatedItem);
-
-            updatedItem.Name = item.Name;
-            updatedItem.Description = item.Description;
-            updatedItem.Priority = item.Priority;
-            updatedItem.Status = item.Status;
-            updatedItem.Date = item.Date;
-            updatedItem.Time = item.Time;
-
-            Console.WriteLine("After update: " + updatedItem);
-        });
-
-    }
     // function for clearing the list
     public async Task ClearAll()
     {

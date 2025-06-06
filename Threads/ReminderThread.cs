@@ -44,10 +44,7 @@ public class ReminderThread
 
         try
         {
-            if (!date.HasValue || !time.HasValue)
-                return;
-
-            var targetDateTime = date.Value.Date + time.Value;
+            var targetDateTime = date + time;
             var now = DateTime.Now;
 
             if (now < targetDateTime)
