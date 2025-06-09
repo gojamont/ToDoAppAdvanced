@@ -12,16 +12,19 @@ public class ReminderThread
     // setting view models
     private readonly ToDoItemViewModel _toDoItemViewModel;
     private readonly ToDoListViewModel _toDoListViewModel;
+
+    internal bool DeadlineReached { get; set; } = false; 
     
     // locking resources to prevent interaction with UI
     private readonly object _reminderLock = new();
-    private bool _reminderStarted = false;
+    
+    internal bool ReminderStarted = false;
 
 
     public ReminderThread(ToDoItemViewModel toDoItemViewModel, ToDoListViewModel toDoListViewModel)
     {
-        _toDoItemViewModel = toDoItemViewModel;
-        _toDoListViewModel = toDoListViewModel;
+        _toDoItemViewModel = toDoItemViewModel ?? throw new ArgumentNullException(nameof(toDoItemViewModel));
+        _toDoListViewModel = toDoListViewModel ?? throw new ArgumentNullException(nameof(toDoListViewModel));
     }
     
     // running the thread
@@ -29,15 +32,15 @@ public class ReminderThread
     {
         lock (_reminderLock)
         {
-            if (_reminderStarted)
+            if (ReminderStarted)
                 return;
-            _reminderStarted = true;
+            ReminderStarted = true;
         }
         Thread thread = new Thread(RemindDeadline) { IsBackground = true };
         thread.Start();
     }
 
-    private void RemindDeadline()
+    internal void RemindDeadline()
     {
         var date = _toDoItemViewModel.Item.Date;
         var time = _toDoItemViewModel.Item.Time;
@@ -65,26 +68,35 @@ public class ReminderThread
         }
     }
 
-    private void Notify(string message, bool deadlineReached = false)
+    internal void Notify(string message, bool deadlineReached)
     {
-        Dispatcher.UIThread.InvokeAsync(() =>
+        DeadlineReached = deadlineReached;
+        try
         {
-            if (deadlineReached)
+            Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _toDoItemViewModel.DeadlineReached = true;
-            }
+                if (deadlineReached)
+                {
+                    _toDoItemViewModel.DeadlineReached = true;
+                }
 
-            _toDoListViewModel.NotificationMessage = message;
-        });
+                _toDoListViewModel.NotificationMessage = message;
+            });
 
-        Task.Run(async () =>
+            Task.Run(async () =>
+            {
+                await Task.Delay(5000);
+                ClearNotification();
+            });
+        }
+        catch (Exception e)
         {
-            await Task.Delay(5000);
-            ClearNotification();
-        });
+            Console.WriteLine($"Error in the thread: {e}");
+        }
+        
     }
 
-    private void ClearNotification()
+    internal void ClearNotification()
     {
         Dispatcher.UIThread.InvokeAsync(() => { _toDoListViewModel.NotificationMessage = string.Empty; });
 

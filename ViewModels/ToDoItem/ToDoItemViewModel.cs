@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Moq;
 using ToDoAdvanced.Models;
 using ToDoAdvanced.Services;
 using ToDoAdvanced.Services.DataService;
@@ -30,6 +31,11 @@ public partial class ToDoItemViewModel : ViewModelBase
     
     // Event to notify parent to reload items
     public event Func<Task>? ItemChanged;
+    
+    public ToDoItemViewModel()
+        : this(new ToDoItem(), new Mock<IToDoManager>().Object, new ToDoListViewModel())
+    {
+    }
 
     public ToDoItemViewModel(ToDoItem item, IToDoManager toDoManager, ToDoListViewModel listViewModel)
     {

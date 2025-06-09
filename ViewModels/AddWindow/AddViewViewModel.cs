@@ -30,7 +30,7 @@ public partial class AddViewViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void AddItem()
+    internal void AddItem()
     {
         var newItem = new ToDoItem(Name ?? string.Empty, Description ?? string.Empty, SelectedPriority, SelectedStatus, Date,  Time);
         _toDoManager.Add(newItem);

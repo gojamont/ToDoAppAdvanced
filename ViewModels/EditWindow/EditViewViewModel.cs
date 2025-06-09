@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.Input;
-using ToDoAdvanced.Models;
+﻿using System.Collections.ObjectModel;
 using ToDoAdvanced.Services;
 
 namespace ToDoAdvanced.ViewModels.EditWindow;

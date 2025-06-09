@@ -14,9 +14,9 @@ public class ToDoManager : IToDoManager
     // setting a data service for handling json files
     private readonly IDataService _dataService;
     
-    public List<ToDoItem> items { get; set; } = [];
+    public List<ToDoItem> Items { get; set; } = [];
     
-    public string filePath { get; set; }= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ToDoList.json");
+    public string FilePath { get; set; }= Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ToDoList.json");
     
     // constructors for to do manager
     // public ToDoManager(){}
@@ -49,7 +49,7 @@ public class ToDoManager : IToDoManager
     {
         await ModifyItemsAsync(list =>
         {
-            items.Clear();
+            Items.Clear();
         });
     }
     
@@ -70,21 +70,21 @@ public class ToDoManager : IToDoManager
     // Helper method to load, modify, and save items
     private async Task ModifyItemsAsync(Action<List<ToDoItem>> modifyAction)
     {
-        items = await _dataService.FileDataReader.ReadDataAsync(filePath);
-        modifyAction(items);
-        await _dataService.FileDataSaver.SaveDataAsync(filePath, items);
+        Items = await _dataService.FileDataReader.ReadDataAsync(FilePath);
+        modifyAction(Items);
+        await _dataService.FileDataSaver.SaveDataAsync(FilePath, Items);
     }
 
     private async Task UpdateStatusAsync(ToDoItem item, ToDoStatus status)
     {
-        items = await _dataService.FileDataReader.ReadDataAsync(filePath);
+        Items = await _dataService.FileDataReader.ReadDataAsync(FilePath);
 
-        var existingItem = items.FirstOrDefault(i => i.Id == item.Id);
+        var existingItem = Items.FirstOrDefault(i => i.Id == item.Id);
         if (existingItem == null) return;
 
         existingItem.Status = status;
 
-        await _dataService.FileDataSaver.SaveDataAsync(filePath, items);
+        await _dataService.FileDataSaver.SaveDataAsync(FilePath, Items);
     }
     
 }

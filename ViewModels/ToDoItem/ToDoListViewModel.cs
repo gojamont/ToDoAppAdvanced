@@ -9,6 +9,7 @@ using ToDoAdvanced.Services;
 using ToDoAdvanced.Services.DataService;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Moq;
 using ToDoAdvanced.Threads;
 
 
@@ -24,6 +25,12 @@ public partial class ToDoListViewModel : ViewModelBase
     public int ToDoItemsCount => ToDoItems.Count;
 
     [ObservableProperty] private bool _deadlineReached = false;
+    
+    // In ToDoListViewModel.cs
+    public ToDoListViewModel()
+        : this(new Mock<IToDoManager>().Object, new Mock<IDataReader>().Object)
+    {
+    }
     
     private ToDoItemViewModel CreateViewModel(ToDoItem item)
     {
